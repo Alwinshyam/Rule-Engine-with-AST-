@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule Engine Input</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        textarea { width: 100%; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<h1>Rule Engine Input</h1>
+
+<h2>Create Rule</h2>
+<textarea id="ruleInput" rows="4" placeholder="Enter rule string here..."></textarea>
+<button onclick="createRule()">Create Rule</button>
+
+<h2>Combine Rules</h2>
+<textarea id="rule1Input" rows="4" placeholder="Enter first rule ID..."></textarea>
+<textarea id="rule2Input" rows="4" placeholder="Enter second rule ID..."></textarea>
+<select id="operatorSelect">
+    <option value="AND">AND</option>
+    <option value="OR">OR</option>
+</select>
+<button onclick="combineRules()">Combine Rules</button>
+
+<h2>Evaluate Rule</h2>
+<textarea id="evaluateInput" rows="4" placeholder="Enter rule ID to evaluate..."></textarea>
+<textarea id="dataInput" rows="4" placeholder='{"age": 20}'></textarea>
+<button onclick="evaluateRule()">Evaluate Rule</button>
+
+<h2>Output</h2>
+<pre id="output"></pre>
+
+<script>
+    async function createRule() {
+        const ruleString = document.getElementById('ruleInput').value;
+        const response = await fetch('/api/rules/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(ruleString),
+        });
+        const result = await response.json();
+        document.getElementById('output').innerText = JSON.stringify(result, null, 2);
+    }
+
+    async function combineRules() {
+        const rule1 = document.getElementById('rule1Input').value;
+        const rule2 = document.getElementById('rule2Input').value;
+        const operator = document.getElementByIdI'll complete the remaining part of the script for evaluating the rule and displaying outputs here:
+
+```html
+    async function combineRules() {
+        const rule1 = document.getElementById('rule1Input').value;
+        const rule2 = document.getElementById('rule2Input').value;
+        const operator = document.getElementById('operatorSelect').value;
+        const response = await fetch(`/api/rules/combine?operator=${operator}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ rule1, rule2 })
+        });
+        const result = await response.json();
+        document.getElementById('output').innerText = JSON.stringify(result, null, 2);
+    }
+
+    async function evaluateRule() {
+        const rule = document.getElementById('evaluateInput').value;
+        const data = JSON.parse(document.getElementById('dataInput').value);
+        const response = await fetch('/api/rules/evaluate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ rule, data })
+        });
+        const result = await response.json();
+        document.getElementById('output').innerText = `Evaluation Result: ${result}`;
+    }
+</script>
+</body>
+</html>
